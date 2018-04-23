@@ -1,0 +1,809 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  BucketName:
+      Type: String
+
+Resources:
+  DeliforceDriverGetMethod:
+    Type: AWS::Serverless::Function
+    Properties:
+      
+      FunctionName: Deliforce_driver_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_fetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTaskPostMethod:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Ddeliforce_task_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_add.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceAuth:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_roles_permission
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/authorizer.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+       
+  DeliforceAnalyticsDriverLogGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_Analytics_driverLog_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/AnalyticsDriverLog.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceAnalyticsOntimeGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_Analytics_ontime_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/AnalyticsOntime.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+
+  DeliforceAnalyticsTaskGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_Analytics_taskcomplete_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/AnalyticsTask.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+  
+  DeliforceDriverBlockUnblockPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_drivers_blockUnblock_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driverblockunblock.zip 
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+              
+  DeliforceDriverDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Test
+      FunctionName: Deliforce_driver_delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_delete.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Events:
+         Api1:   
+           Type: Api
+           Properties:
+             Path: /driver
+             Method: DELETE 
+                 
+  DeliforceDriverPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_driver_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_edit.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDriverPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_driver_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_add.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+ 
+  DeliforceSettingsDeveloperGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_developer_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettingDevelopGet.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDriverStatus:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_driverStatus_get
+      AutoPublishAlias: Prod
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_getDriverStatus.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Events:
+         Api1:   
+           Type: Api
+           Properties:
+             Path: /driver/driverstatus
+             Method: GET 
+       
+  DeliforceDriverGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_getDrivers
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_getDriverStatus.zip
+      Policies: AWSLambdaFullAccess   
+      Role: arn:aws:iam::539977196287:role/lambdafull
+
+  DeliforceSettingsPreferenceGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_preference_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettingPreferenceGet.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsPreferencePut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_preference_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettingPreferencePut.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsCategoryGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: test
+      FunctionName: Deliforce_settings_category_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettingsCateGet.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsCategoryPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: dev
+      FunctionName: Deliforce_settings_category_Put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettingsCatePut.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+  
+  DeliforceSettingsAllUpdate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_all_update
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/SettigsAllUp.zip
+      Policies: AWSLambdaFullAccess  
+      Role: arn:aws:iam::539977196287:role/lambdafull
+          
+  DeliforceSettingsAllFetch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_all_fetch
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/all_settings_fetch.zip
+      Policies: AWSLambdaFullAccess  
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceCustomerFetch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_customer_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/Customerfetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceCustomerDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_customer_delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/customer_delete.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceCustomerUpdate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_customer_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/Customerupdate.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDashboardDriverDetails:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_dashboard_driverDetails_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/dashboard_fetchDrivers.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDashboardReassignTask:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_dashboard_reassignTask_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/dashbord_ChangeTaskPriority.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDashboardChanTasklog:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_dashboard_tasklog_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/dashboard_fetchTaskLogs.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDashboardTaskDetailsGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_dashboard_taskDetails_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/dashboard_fetchTasks.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTeamFetchTeam:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_team_fetchTeam
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/fetchTeams.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTeamGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_team_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/team_fetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTeamDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_team_delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/team_delete.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTeamPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_team_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/team_add_edit.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMultipleChangeStatus:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_MultipleChangeStatus_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/multipleChangeStatus.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMultipleTaskDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_multipleTaskDelete_Delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/multipleTaskDelete.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTaskDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_task_Delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_delete.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTaskPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_task_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_edit.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+  
+
+  DeliforceTaskPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Dev
+      FunctionName: Deliforce_task_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_fetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceTaskStatistics:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_task_statistics_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_statistics.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceCognitoSignUp:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_coginito_signup
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/coginitosignup.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceFileupload:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Dev
+      FunctionName: Dev_fileupload
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/fileupload_Del.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+          
+  DeliforceManagerPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      AutoPublishAlias: Beta
+      FunctionName: Deliforce_manager_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/manager_add.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceManagerGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_manager_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/manager_fetch.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceManagerDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_manager_delete
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/manager_delete.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceManagerPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_manager_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/manager_update.zip
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileAnalytic:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_analytic_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mobile_analytic.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobilechangepasswd:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_changepassword_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_usr_ch_pwd_up.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileNotification:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_notification_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mobile_notif.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileTaskDetails:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_taskdetails_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_fetchTaskDetails.zip
+      Policies: AWSLambdaFullAccess
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileTasklist:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_tasklist_post
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_fetchTaskList.zip
+      Policies: AWSLambdaFullAccess    
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileTaskroutes:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_taskroutes_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_fetchTaskRoute.zip
+      Policies: AWSLambdaFullAccess    
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileSettingfetch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_settings_get
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_set_fetch.zip
+      Policies: AWSLambdaFullAccess  
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileSettingupdate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_settings_put
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_set_up.zip
+      Policies: AWSLambdaFullAccess  
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforcegetRolesPerm:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Dev_checkUserPermission
+      Timeout: 300
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/roles_perm.zip
+      Policies: AWSLambdaFullAccess  
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingEditProfilePut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_edit_profile_put
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/set_edits_profile_put.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforcesettingseditprofileGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_edit_profile_get 
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/set_edits_profile_get.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+   
+  DeliforceMobileLoginPost:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: Deliforce_mobile_login_post
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_login_post.zip
+      Timeout: 300
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Policies: AWSLambdaFullAccess 
+      
+  DeliforceMobileHelpPost:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: Deliforce_mobile_help_post
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_help_post.zip
+      Timeout: 300 
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileProfilePut:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: Deliforce_mobile_profile_put
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_pro_put.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceDriverImport:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_driver_import
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_import.zip
+      Timeout: 300 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Policies: AWSLambdaFullAccess 
+      Events:
+         Api1:   
+           Type: Api
+           Properties:
+             Path: /driver/import
+             Method: POST
+  
+  DeliforceHelpListTickGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_help_listtickets_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/help_list_ticket_get.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsBillingGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_setting_billing_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/setting_billing_get.zip
+      MemorySize: 128
+      Timeout: 3 
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileForgotPasswordPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_forgotpassword_post
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_forgot_pwd.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceMobileProfileGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_mobile_profile_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/mob_profile_get.zip
+      Timeout: 300   
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceCustomerImport:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_customer_import
+      Handler: lambda.handler
+      Runtime: nodejs6.10
+      CodeUri: build/customer_import.zip 
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsBillingPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_setting_billing_put
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/set_billing_put.zip
+      Timeout: 300    
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  DeliforceSettingsChangePasswordPut:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_settings_change_password_put
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/set_change_passwd_put.zip
+      Timeout: 300    
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+  
+  DeliforceHelpAddticketPost:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_help_addticket_post
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/help_addtic_post.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  Deliforcefileremovedelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_fileremove_delete
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/file_rem_del.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  Deliforcetaskimport:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_task_import
+      Handler: lambda.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_import.zip
+      Timeout: 300
+      Policies: AWSLambdaFullAccess 
+      Role: arn:aws:iam::539977196287:role/lambdafull
+  
+
+  Deliforcedriverexportget:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_driver_export_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/driver_export.zip
+      Timeout: 300
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      Policies: AWSLambdaFullAccess 
+      AutoPublishAlias: Dev
+      Events:
+         Api1:   
+           Type: Api
+           Properties:
+             Path: /driver/export
+             Method: GET
+  Deliforcetaskexportget:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Dev_delliforce_task_export_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/task_export_get.zip
+      Timeout: 300
+      Role: arn:aws:iam::539977196287:role/lambdafull
+      
+  Deliforcecustomerexportget:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: Deliforce_customer_export_get
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: build/customer_export_get.zip
+      Timeout: 300 
+      Role: arn:aws:iam::539977196287:role/lambdafull
