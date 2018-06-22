@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: TestApi 
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: s3://devdeliforcemumbailambda/swagger-json-testapi.json
+
+  DriverDeleteF:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: driver_delete_fun
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: build/authorizer.zip
+      Events:
+        GetApi:
+          Type: Api
+          Properties:
+            Path: /driver
+            Method: delete
+            

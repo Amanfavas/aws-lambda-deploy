@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An example serverless "Hello World" application with a custom authorizer.
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title:
+            Ref: AWS::StackName
+        securityDefinitions:
+          lambdaAuth:
+            type: apiKey
+            name: Authorization
+            in: header
+            x-amazon-apigateway-authtype: custom
+            x-amazon-apigateway-authorizer:
+              type: request
+              authorizerUri:
+                Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TestAuthorizerFunc.Arn}/invocations
+              authorizerResultTtlInSeconds: 1
+              identitySource: method.request.header.Authorization
+          
+        paths:
+          "/":
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: post
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TestAuthorizerFunc.Arn}/invocations
+              responses: {}
+              security:
+                - lambdaAuth: []
+              
+          
+       
+
+ 
+  TestAuthorizerFunc:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: Deliforce_role_permission
+      Handler: index.handler
+      Runtime: nodejs4.3
+      CodeUri: build/authorizer.zip
+      Events:
+        GetApi:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+            RestApiId:
+                Ref: ApiGateway
+
+  TestAuthorizerFuncPerm:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - ApiGateway
+      - TestAuthorizerFunc
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: TestAuthorizerFunc
+      Principal: apigateway.amazonaws.com
