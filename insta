@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Edit the swagger file  content(Test)
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: TESTONE
+      StageName: Develop
+      DefinitionUri: s3://devdeliforcemumbailambda/test.yml
+
+  DriverDeleteF:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: driver_delete_fun_test
+      Handler: index.js
+      Runtime: nodejs6.10
+      CodeUri: build/finalize.zip
+      Environment:
+        Variables:
+          db_url: mongodb://testuser:7034191716@106.51.73.130:27017/test
+      Timeout: 30
+     
+  
+  healthcheck:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: driver_delete_function
+      Handler: index.js
+      Runtime: nodejs6.10
+      CodeUri: build/driver_delete.zip
+  
+
+  rollback:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: driver_edit_function
+      Handler: index.js
+      Runtime: nodejs6.10
+      CodeUri: build/driver_edit.zip
+      
+ 
+  simple:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: driver_export_function
+      Handler: index.js
+      Runtime: nodejs6.10
+      CodeUri: build/driver_export.zip
+      Role: arn:aws:iam::539977196287:role/favas-poc
